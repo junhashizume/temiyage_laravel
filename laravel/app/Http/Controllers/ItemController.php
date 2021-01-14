@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 use App\Item;
 use App\Post;
 use App\User;
+use App\Store;
 
 use Illuminate\Http\Request;
+header("Access-Control-Allow-Origin: *");
 
 class ItemController extends Controller
 {
@@ -17,10 +19,9 @@ class ItemController extends Controller
     public function index()
     {
         $items = Item::all();
-        return response()->json([
-            'message' => 'ok',
-            'data' => $items
-        ], 200, [], JSON_UNESCAPED_UNICODE);
+        return response()->json(
+            $items
+        , 200, [], JSON_UNESCAPED_UNICODE);
         // return view('test', ['data' => $items]);
     }
 
@@ -32,11 +33,18 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        $items = Item::create($request->all());
-        return response()->json([
-            'message' => 'Item created successfully',
-            'data' => $items
-        ], 201, [], JSON_UNESCAPED_UNICODE);
+        // $items = Item::create($request->all());
+        // return response()->json([
+        //     'message' => 'Item created successfully',
+        //     'data' => $items
+        // ], 201, [], JSON_UNESCAPED_UNICODE);
+        $items = new Item;
+        $items->item_name = $request->item_name;
+        $items->item_desc = $request->item_desc;
+        $items->item_image = $request->item_image;
+        $items->price = $request->price;
+        $items->save();
+        return redirect('/');
     }
 
     /**

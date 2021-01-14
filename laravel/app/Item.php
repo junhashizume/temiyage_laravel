@@ -14,4 +14,8 @@ class Item extends Model
         'price'
     ];
 
+    public function store(){
+        return $this->belongsTo('App\Store');
+    }
+
 }

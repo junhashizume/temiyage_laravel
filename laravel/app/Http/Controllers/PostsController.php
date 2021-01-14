@@ -6,27 +6,15 @@ use Illuminate\Http\Request;
 use App\Post;
 use App\User;
 use App\Item;
+use App\Store;
+
 
 class PostsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        return view('posts');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $items = Item::all();
+        return view('posts', ['items' => $items]);
     }
 
     /**
@@ -37,24 +25,10 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        // //バリデーション 
-        // $validator = Validator::make($request->all(), [
-        //     'item_name' => 'required|max:255',
-        //     'item_desc' => 'required|max:255',
-        //     'item_image' => 'required|max:255',
-        //     'price' => 'required|max:255',
-        // ]);
-        // //バリデーション:エラー
-        // if ($validator->fails()) {
-        //     return redirect('/')
-        //         ->withInput()
-        //         ->withErrors($validator);
-        // }
-        // 以下に登録処理を記述（Eloquentモデル）
         $items = new Item;
         $items->item_name = $request->item_name;
-        $items->item_desc = $request->item_name;
-        $items->item_image = $request->item_name;
+        $items->item_desc = $request->item_desc;
+        $items->item_image = $request->item_image;
         $items->price = $request->price;
         $items->save();
         return redirect('/');
